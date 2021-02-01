@@ -57,6 +57,26 @@ app.get("/", (req, res) => {
   res.sendFile(`${__dirname}/index.html`);
 });
 
+/**
+ * Token route
+ *
+ * Expects a request from the client with a JSON body containing an `identity` key signifying a user identifier, e.g.
+ *
+ * {
+ *   "identity": "ncannariato"
+ * }
+ */
+app.post("/token", (req, res) => {
+  identity = req.body.identity;
+  console.log(identity);
+  token = TokenGenerator(identity);
+
+  return res.json({
+    identity: identity,
+    token: token.toJwt(),
+  });
+});
+
 // Gather PORT from environment if available, if not, set to 3000
 const PORT = process.env.PORT || 3000;
 // Start the server
