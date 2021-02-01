@@ -12,7 +12,7 @@
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ identity: "birdcar" }),
+    body: JSON.stringify({ identity: "user-identifier-goes-here" }),
   });
   const content = await rawResponse.json();
 
