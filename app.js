@@ -42,7 +42,6 @@ const app = express();
 
 // Add Express middleware
 app.use(
-  // helmet(),                  // Security
   express.json(), // JSON body parsing
   express.static("assets"), // Ensure that JS files can be requested by index.html
   morgan("dev") // Application request logging
