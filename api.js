@@ -95,4 +95,7 @@ const PORT = process.env.PORT || 3000;
 // Start the server
 app.listen(PORT, () => {
   console.info(`Server is up on port: ${PORT} `);
+  console.log(
+    `open your browser and visit http://localhost:${PORT}/ to run the application`
+  );
 });

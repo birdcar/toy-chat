@@ -2,9 +2,9 @@
   "name": "toy-chat",
   "version": "0.0.1",
   "description": "",
-  "main": "app.js",
+  "main": "api.js",
   "scripts": {
-    "server": "nodemon app.js"
+    "server": "nodemon api.js"
   },
   "keywords": [],
   "contributors": [
