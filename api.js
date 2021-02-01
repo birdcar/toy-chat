@@ -2,16 +2,17 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const twilio = require("twilio");
-
 const AccessToken = twilio.jwt.AccessToken;
 const ChatGrant = AccessToken.ChatGrant;
 
 /**
  *
- * HELPER FUNCTIONS
+ * TokenGenerator helper function
+ *
+ * Takes an identity and performs the work necessary to return an access token for the chat service sid
+ * specified in your .env file
  *
  */
-
 function TokenGenerator(identity) {
   const appName = "ToyChat";
 
