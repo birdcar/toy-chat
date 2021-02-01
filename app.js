@@ -77,6 +77,19 @@ app.post("/token", (req, res) => {
   });
 });
 
+/**
+ * Events route
+ *
+ * Will be used by chat's webhooks service to recieve events and log them out.
+ *
+ * Currently just logs the entire request body as a table.
+ *
+ * Requires ngrok to be run locally.
+ */
+app.post("/events", (req, res) => {
+  console.table(req.body);
+});
+
 // Gather PORT from environment if available, if not, set to 3000
 const PORT = process.env.PORT || 3000;
 // Start the server
