@@ -96,11 +96,17 @@ app.post("/events", (req, res) => {
 
 // Gather PORT from environment if available, if not, set to 3000
 const PORT = process.env.PORT || 3000;
+
 // Start the server
 app.listen(PORT, async () => {
+  // Create an ngrok endpoint and forward it to the same port as the express server
   const url = await ngrok.connect({ addr: PORT });
+
+  // Instantiate a Twilio client
   const client = require("twilio")(accountSid, authToken);
 
+  // Update the ToyChat service to add the new ngrok URL &
+  // specify which events we want to subscribe to.
   await client.chat.services(chatServiceSid).update({
     preWebhookUrl: `${url}/events`,
     postWebhookUrl: `${url}/events`,
