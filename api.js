@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const twilio = require("twilio");
 const AccessToken = twilio.jwt.AccessToken;
 const ChatGrant = AccessToken.ChatGrant;
+const Chat = require('twilio-chat');
 
 /**
  *
@@ -67,9 +68,8 @@ app.get("/", (req, res) => {
  * }
  */
 app.post("/token", (req, res) => {
-  identity = req.body.identity;
-  console.log(identity);
-  token = TokenGenerator(identity);
+  const identity = req.body.identity;
+  const token = TokenGenerator(identity);
 
   return res.json({
     identity: identity,
@@ -99,3 +99,4 @@ app.listen(PORT, () => {
     `open your browser and visit http://localhost:${PORT}/ to run the application`
   );
 });
+module.exports = app;
