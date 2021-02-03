@@ -1,10 +1,14 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+const ngrok = require("ngrok");
 const twilio = require("twilio");
+
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const chatServiceSid = process.env.TWILIO_CHAT_SERVICE_SID;
 const AccessToken = twilio.jwt.AccessToken;
 const ChatGrant = AccessToken.ChatGrant;
-const Chat = require('twilio-chat');
 
 /**
  *
@@ -18,11 +22,11 @@ function TokenGenerator(identity) {
   const appName = "ToyChat";
 
   const chatGrant = new ChatGrant({
-    serviceSid: process.env.TWILIO_CHAT_SERVICE_SID,
+    serviceSid: chatServiceSid,
   });
 
   const token = new AccessToken(
-    process.env.TWILIO_ACCOUNT_SID,
+    accountSid,
     process.env.TWILIO_API_KEY,
     process.env.TWILIO_API_SECRET
   );
@@ -84,19 +88,44 @@ app.post("/token", (req, res) => {
  *
  * Currently just logs the entire request body as a table.
  *
- * Requires ngrok to be run locally.
  */
 app.post("/events", (req, res) => {
-  console.table(req.body);
+  console.log(req);
+  return res.status(201).end();
 });
 
 // Gather PORT from environment if available, if not, set to 3000
 const PORT = process.env.PORT || 3000;
 // Start the server
-app.listen(PORT, () => {
-  console.info(`Server is up on port: ${PORT} `);
+app.listen(PORT, async () => {
+  const url = await ngrok.connect({ addr: PORT });
+  const client = require("twilio")(accountSid, authToken);
+
+  await client.chat.services(chatServiceSid).update({
+    preWebhookUrl: `${url}/events`,
+    postWebhookUrl: `${url}/events`,
+    webhookMethod: "POST",
+    webhookFilters: [
+      "onChannelAdd",
+      "onChannelAdded",
+      "onChannelUpdate",
+      "onChannelUpdated",
+      "onChannelDestroy",
+      "onChannelDestroyed",
+      "onMemberAdd",
+      "onMemberAdded",
+      "onMemberUpdate",
+      "onMemberUpdated",
+      "onMemberRemove",
+      "onMemberRemoved",
+    ],
+  });
+
   console.log(
-    `open your browser and visit http://localhost:${PORT}/ to run the application`
+    `open your browser and visit http://localhost:${PORT}/ to run the application locally\n`
   );
+
+  console.log(`Webhooks will be sent to ${url}/events`);
 });
+
 module.exports = app;
