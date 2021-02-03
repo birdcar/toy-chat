@@ -20,8 +20,6 @@ const ChatGrant = AccessToken.ChatGrant;
  *
  */
 function TokenGenerator(identity) {
-  const appName = "ToyChat";
-
   const chatGrant = new ChatGrant({
     serviceSid: chatServiceSid,
   });
