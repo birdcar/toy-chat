@@ -1,4 +1,5 @@
 require("dotenv").config();
+const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
 const ngrok = require("ngrok");
@@ -89,8 +90,8 @@ app.post("/token", (req, res) => {
  * Currently just logs the entire request body as a table.
  *
  */
-app.post("/events", (req, res) => {
-  console.log(req);
+app.post("/events", bodyParser.urlencoded(), (req, res) => {
+  console.log(req.body);
   return res.status(201).end();
 });
 
@@ -112,11 +113,8 @@ app.listen(PORT, async () => {
     postWebhookUrl: `${url}/events`,
     webhookMethod: "POST",
     webhookFilters: [
-      "onChannelAdd",
       "onChannelAdded",
-      "onChannelUpdate",
       "onChannelUpdated",
-      "onChannelDestroy",
       "onChannelDestroyed",
       "onMemberAdd",
       "onMemberAdded",
@@ -124,6 +122,7 @@ app.listen(PORT, async () => {
       "onMemberUpdated",
       "onMemberRemove",
       "onMemberRemoved",
+      "onMessageSent",
     ],
   });
 
