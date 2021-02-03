@@ -8,8 +8,6 @@ const twilio = require("twilio");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const chatServiceSid = process.env.TWILIO_CHAT_SERVICE_SID;
-const AccessToken = twilio.jwt.AccessToken;
-const ChatGrant = AccessToken.ChatGrant;
 
 /**
  *
@@ -20,7 +18,10 @@ const ChatGrant = AccessToken.ChatGrant;
  *
  */
 function TokenGenerator(identity) {
-  const chatGrant = new ChatGrant({
+  const AccessToken = twilio.jwt.AccessToken;
+  const ChatGrant = AccessToken.ChatGrant;
+
+  const grant = new ChatGrant({
     serviceSid: chatServiceSid,
   });
 
@@ -30,7 +31,7 @@ function TokenGenerator(identity) {
     process.env.TWILIO_API_SECRET
   );
 
-  token.addGrant(chatGrant);
+  token.addGrant(grant);
   token.identity = identity;
 
   return token;
