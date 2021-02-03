@@ -4,7 +4,7 @@
   "description": "",
   "main": "api.js",
   "scripts": {
-    "server": "nodemon api.js"
+    "server": "node api.js"
   },
   "keywords": [],
   "contributors": [
@@ -30,7 +30,6 @@
     "twilio-chat": "^4.1.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7",
     "prettier": "^2.2.1"
   }
 }
