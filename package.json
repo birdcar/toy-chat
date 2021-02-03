@@ -25,6 +25,7 @@
     "express": "^4.17.1",
     "helmet": "^4.4.1",
     "morgan": "^1.10.0",
+    "ngrok": "^3.4.0",
     "twilio": "^3.6.5",
     "twilio-chat": "^4.1.0"
   },
