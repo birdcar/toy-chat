@@ -58,7 +58,7 @@ app.use(
  * when a request is made to the root route it returns index.html, which loads the client
  */
 app.get("/", (req, res) => {
-  res.sendFile(`${__dirname}/index.html`);
+  return res.sendFile(`${__dirname}/index.html`);
 });
 
 /**
