@@ -1,5 +1,4 @@
 require("dotenv").config();
-const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
 const ngrok = require("ngrok");
@@ -89,8 +88,8 @@ app.post("/token", (req, res) => {
  * Currently just logs the entire request body as a table.
  *
  */
-app.post("/events", bodyParser.urlencoded(), (req, res) => {
-  console.log(req.body);
+app.post("/events", express.urlencoded({ extended: true }), (req, res) => {
+  console.table(req.body);
   return res.status(201).end();
 });
 
